@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>i love azi ♡ ❤️</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Georgia, serif;
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ffe4e9);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Floating hearts */
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 25px;
+            animation: float 8s linear infinite;
+        }
+
+        .heart:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .heart:nth-child(2) {
+            left: 30%;
+            animation-delay: 2s;
+        }
+
+        .heart:nth-child(3) {
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        .heart:nth-child(4) {
+            left: 70%;
+            animation-delay: 1s;
+        }
+
+        .heart:nth-child(5) {
+            left: 90%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* PAGE SYSTEM */
+        .page {
+            display: none;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .page.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* OPEN BUTTON */
+        .open-button {
+            position: relative;
+            z-index: 5;
+            padding: 20px 35px;
+            border: none;
+            border-radius: 50px;
+            background: #ff6f91;
+            color: white;
+            font-size: 20px;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(180, 50, 90, 0.3);
+            transition: 0.3s;
+        }
+
+        .open-button:hover {
+            transform: scale(1.08);
+            background: #e75480;
+        }
+
+        /* POPUP */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(80, 20, 40, 0.45);
+            backdrop-filter: blur(5px);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s;
+
+            z-index: 10;
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* LOVE LETTER */
+        .letter {
+            position: relative;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+
+            background: rgba(255, 255, 255, 0.97);
+            padding: 45px;
+            border-radius: 20px;
+
+            box-shadow: 0 20px 60px rgba(100, 20, 50, 0.4);
+            border: 3px solid #ff8fab;
+
+            transform: scale(0.3) translateY(100px);
+            opacity: 0;
+
+            transition:
+                transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.3s ease;
+        }
+
+        .popup-overlay.show .letter {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        /* CLOSE BUTTON */
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+
+            width: 35px;
+            height: 35px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: #ffb6c1;
+            color: white;
+
+            font-size: 20px;
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .close-button:hover {
+            background: #e75480;
+            transform: rotate(90deg);
+        }
+
+        h1 {
+            text-align: center;
+            color: #e75480;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #b84c70;
+            font-style: italic;
+            margin-bottom: 35px;
+        }
+
+        p {
+            color: #555;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 35px;
+            color: #e75480;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* BUTTONS */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .love-button,
+        .next-button,
+        .back-button {
+            padding: 13px 28px;
+            border: none;
+            border-radius: 30px;
+
+            background: #ff6f91;
+            color: white;
+
+            font-size: 16px;
+            font-family: Georgia, serif;
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .love-button:hover,
+        .next-button:hover,
+        .back-button:hover {
+            background: #e75480;
+            transform: scale(1.05);
+        }
+
+        #message {
+            text-align: center;
+            color: #e75480;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+
+            animation: messagePop 0.5s ease;
+        }
+
+        @keyframes messagePop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 100 REASONS PAGE */
+        .reasons-page {
+            width: 100%;
+            max-width: 1000px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid #ff8fab;
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(100, 20, 50, 0.25);
+        }
+
+        .reasons-page h2 {
+            text-align: center;
+            color: #e75480;
+            font-size: 38px;
+            margin: 5px 0 10px;
+        }
+
+        .reasons-page .reason-subtitle {
+            text-align: center;
+            color: #b84c70;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-height: 65vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .reason {
+            background: linear-gradient(135deg, #fff0f4, #ffe1e8);
+            border: 2px solid #ffb6c1;
+            border-radius: 15px;
+            padding: 15px;
+            color: #6b4050;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: 0.3s;
+        }
+
+        .reason:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 18px rgba(200, 80, 120, 0.2);
+        }
+
+        .reason-number {
+            color: #e75480;
+            font-weight: bold;
+        }
+
+        .reason-buttons {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 600px) {
+
+            .letter {
+                padding: 30px 22px;
+                max-height: 85vh;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .reasons-page {
+                padding: 20px 12px;
+            }
+
+            .reasons-page h2 {
+                font-size: 28px;
+            }
+
+            .reasons-grid {
+                grid-template-columns: 1fr;
+                max-height: 68vh;
+            }
+
+            .reason {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="tears-in-heaven.mp3" type="audio/mpeg">
+    </audio>
+
+
+    <!-- Floating hearts -->
+    <div class="hearts">
+        <div class="heart">❤️</div>
+        <div class="heart">💕</div>
+        <div class="heart">💗</div>
+        <div class="heart">💖</div>
+        <div class="heart">❤️</div>
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- FIRST BUTTON -->
+    <!-- ========================= -->
+
+    <div id="startPage" class="page active">
+
+        <button class="open-button" onclick="openLetter()">
+            💌 buksan mo azi pls lang
+        </button>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- LOVE LETTER POPUP -->
+    <!-- ========================= -->
+
+    <div class="popup-overlay" id="popup">
+
+        <div class="letter">
+
+            <button class="close-button" onclick="closeLetter()">
+                ×
+            </button>
+
+            <h1>For My Azi ♡</h1>
+
+            <div class="subtitle">
+                specially made for you, my azi ♡
+            </div>
+
+            <p>
+                My Azi,
+            </p>
+
+            <p>
+                Gusto kita, Azi. I thought crush crush lang eh HAHAAHAHAHAA, pero habang nalipas the days, i noticed lang na palagi ko nang inaabangan yung mga message mo. Even 'yung short time at simple moments na nagkakausap tayo, u made me genuinely happy, Azi. I did'nt realize that, nagiging part ka na ng routine and isip ko.
+            </p>
+
+            <p>
+                So now , Azi, I would like to ask for your permission na uhhh may i court you, Azi? I wanna show u na seryoso ako. I'm ready to give my time, attention, and care sa'yo, at maging kasama mo through ups and downs. I'm not perfect guy na makikilala mo but i'll make sure na u can feel kung gaano ka kahalaga at special sa'kin. I'm willing to wait and magsikap for u kasi alam kong worth it ka mahalin and u deserve to be loved.I would like to ask for your permission to court you.
+            </p>
+
+            <p>
+               I'm not saying this to pressure you or force you to like me back right away. Sabi ko nga i want to do it naturally kasama ka. Kung need natin mag-start nang dahan-dahan, there's no prob sa'kin. Whatever your answer may be, I am still deeply grateful that you came into my life and made me feel this truly unique feeling.
+            </p>
+
+            <p>
+                I love you more than words can explain, Azi♡
+                I hope we can make beautiful memories together,
+                one day at a time.♡
+            </p>
+
+            <div class="signature">
+                Forever yours,<br>
+                krwsx4u 
+            </div>
+
+            <div class="button-container">
+
+                <button class="love-button" onclick="showLove()">
+                    pindutin mo 'ko pls ♡
+                </button>
+
+                <button class="next-button" onclick="goToReasons()">
+                    pindutin mo if want mo may kasunod ♡
+                </button>
+
+            </div>
+
+            <div id="message">
+                i love you so much azi ! ♡
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- PAGE 2 - 100 REASONS -->
+    <!-- ========================= -->
+
+    <section id="reasonsPage" class="page">
+
+        <div class="reasons-page">
+
+            <h2>
+                100 things na gusto at love ko sa'yo, Azi ♡
+            </h2>
+
+            <div class="reason-subtitle">
+                basahin mo isa-isa kasi kapag hindi papaluin kita :/
+            </div>
+
+
+            <div class="reasons-grid">
+
+                <div class="reason">
+                    <span class="reason-number">1.</span>
+                    I love to knowing u more
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">2.</span>
+                    I love azi
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">3.</span>
+                    I love lexi
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">4.</span>
+                    I love avery
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">5.</span>
+                    I love dreamchaserhq
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">6.</span>
+                    I love jafromheaven
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">7.</span>
+                    I love ur personality
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">8.</span>
+                    I love ur sense of humor
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">9.</span>
+                    I love how u make me laugh
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">10.</span>
+                    I like how u make my normal days special wow wow
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">11.</span>
+                    I like how comfortable i feel around u
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">12.</span>
+                    I like how i can be myself with u
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">13.</span>
+                    I like how u listen to me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">14.</span>
+                    I like how u understand me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">15.</span>
+                    I like how patient u are with me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">16.</span>
+                    I like how caring u are
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">17.</span>
+                    I like how sweet u can be
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">18.</span>
+                    I like our little time tgt
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">19.</span>
+                    I like ur random stories
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">20.</span>
+                    I like ur random thoughts
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">21.</span>
+                    I love u
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">22.</span>
+                    I love ur music taste
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">23.</span>
+                    I love ur corny jokes
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">24.</span>
+                    I like ur roblox avatar
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">25.</span>
+                    I like ur little jokes
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">26.</span>
+                    I love our late night talks
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">27.</span>
+                    I love how u put effort to this
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">28.</span>
+                    I like our little asaran lol
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">29.</span>
+                    I love our quality time tgt
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">30.</span>
+                    I like talking to u
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">31.</span>
+                    I love hearing about ur day
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">32.</span>
+                    I love the way u aya me in any game
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">33.</span>
+                    I love when u parinig sometimes
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">34.</span>
+                    I love ur future
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">35.</span>
+                    I like ur kindness
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">36.</span>
+                    I like ur softy side
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">37.</span>
+                    I like ur maldita side
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">38.</span>
+                    I love u because sobrang genuine mo
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">39.</span>
+                    I like those little things na ginagawa mo
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">40.</span>
+                    I like the way u randomly call me sa dc
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">41.</span>
+                    I like how do u advice sa mga friends mo
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">42.</span>
+                    I like na u check up on me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">43.</span>
+                    I like the little things na u do for me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">44.</span>
+                    I like when u check up on me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">45.</span>
+                    I like when u remind me to take care of myself
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">46.</span>
+                    I like when you miss me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">47.</span>
+                    I like when u want to spend time with me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">48.</span>
+                    I like ur weirdo moments
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">49.</span>
+                    I like u independent side too na parang kaya yung dungeon mag isa
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">50.</span>
+                    I like how u make me feel wanted
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">51.</span>
+                    I like how u make me feel comfortable kapag kausap ka
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">52.</span>
+                    I like u kasi sobrang peaceful ng isip ko kapag kausap kita
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">53.</span>
+                    I like being able na ma open ko mga probs ko sayo
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">54.</span>
+                    I like sharing my day sayo
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">55.</span>
+                    I like sharing my dreams kasama ka
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">56.</span>
+                    I like hearing ur dreams din
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">57.</span>
+                    I like na ikakasal tayo soon wow wow wow
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">58.</span>
+                    I like na magkakaroon tayo ng maraming pusa
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">59.</span>
+                    I like imagining our future tgt
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">60.</span>
+                    I like making memories with u soon
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">61.</span>
+                    I like our puyatan na sobrang lala HAHAHAHA
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">62.</span>
+                    I like our conversations kahit minsan walang sense
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">63.</span>
+                    I like when we don't notice how much time has passed na pa extend extend ako ng oras sa sleep
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">64.</span>
+                    I like ur good morning messages
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">65.</span>
+                    I like ur goodnight messages
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">66.</span>
+                    I like when u randomly message me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">67.</span>
+                    I like when u send me pictures
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">68.</span>
+                    I like when u send me puctures ng cat mo
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">69.</span>
+                    I like how u can change my mood
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">70.</span>
+                    I like the way u can boost my aim wow wow wow
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">71.</span>
+                    I like how u watch me on valo kahit bano ako
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">72.</span>
+                    I like how u sama me on roblox
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">73.</span>
+                    I like how u help my sister na kumuha ng egg
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">74.</span>
+                    I like how me asaran sa steal an egg
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">75.</span>
+                    I love growing with u
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">76.</span>
+                    I like learning more about u
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">77.</span>
+                    I like discovering new sides of u
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">78.</span>
+                    I like u calling me love
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">79.</span>
+                    I love to support u on any things
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">80.</span>
+                    I love giving u food
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">81.</span>
+                    I like that we have the same fav sa mcdo
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">82.</span>
+                    I like that u can cook lutuan mo nga ako
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">83.</span>
+                    I like that u like flowers sige bigyan kita
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">84.</span>
+                    I like that u notice the little things
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">85.</span>
+                    I love playing codm with u
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">86.</span>
+                    I love our quality time
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">87.</span>
+                    I love our bbt sa dc
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">88.</span>
+                    I love our random games sa roblox
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">89.</span>
+                    I love that u like cats
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">90.</span>
+                    I love knowing that u have someone like u beside me
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">91.</span>
+                    I like choosing u every day
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">92.</span>
+                    I like being there for u through ups and downs
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">93.</span>
+                    I love supporting u
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">94.</span>
+                    I love celebrating ur small achievements
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">95.</span>
+                    I even love celebrating ur greatest achievements
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">96.</span>
+                    I like being someone u can rely on
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">97.</span>
+                    I like every version of u even the messy ones
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">98.</span>
+                    I like u for who u are
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">99.</span>
+                    I like all the little things that make you you.
+                </div>
+
+                <div class="reason">
+                    <span class="reason-number">100.</span>
+                    100 na yan ha walang labis walang kulang parang love ko sayo 100/100, but kidding asside i want u to know that kulang pa talaga 'yang 100 na yan kasi sobrang dami ko pang gusto sayo at mas gugustuhin pa. ♡ 
+                </div>
+
+            </div>
+
+            <div class="reason-buttons">
+
+                <button class="back-button" onclick="backToLetter()">
+                    pindutin mo if want mo bumalik sa 1st page ♡
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        function openLetter() {
+            document.getElementById("popup").classList.add("show");
+
+            const music = document.getElementById("bgMusic");
+            music.play().catch(error => {
+                console.log("Music could not autoplay:", error);
+            });
+        }
+
+        function closeLetter() {
+            document.getElementById("popup").classList.remove("show");
+        }
+
+        function showLove() {
+            document.getElementById("message").style.display = "block";
+        }
+
+        /* NEXT BUTTON */
+        function goToReasons() {
+
+            closeLetter();
+
+            document.getElementById("startPage").classList.remove("active");
+
+            document.getElementById("reasonsPage").classList.add("active");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        /* BACK BUTTON */
+        function backToLetter() {
+
+            document.getElementById("reasonsPage").classList.remove("active");
+
+            document.getElementById("startPage").classList.add("active");
+
+            openLetter();
+
+        }
+
+        /* Close popup when clicking outside */
+        document.getElementById("popup").addEventListener("click", function(event) {
+
+            if (event.target === this) {
+                closeLetter();
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
